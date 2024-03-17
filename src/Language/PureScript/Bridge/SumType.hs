@@ -262,11 +262,10 @@ instanceToImportLines GenericShow =
 instanceToImportLines Json =
   importsFromList
     [ ImportLine "Control.Lazy" $ Set.singleton "defer",
-      ImportLine "Data.Argonaut" $ Set.fromList ["encodeJson", "jsonNull"],
-      ImportLine "Data.Argonaut.Decode.Aeson" $ Set.fromList ["(</$\\>)", "(</*\\>)", "(</\\>)"],
-      ImportLine "Data.Argonaut.Encode.Aeson" $ Set.fromList ["(>$<)", "(>/\\<)"],
-      ImportLine "Data.Newtype" $ Set.singleton "unwrap",
-      ImportLine "Data.Tuple.Nested" $ Set.singleton "(/\\)"
+      ImportLine "Data.Argonaut" $ Set.fromList ["class DecodeJson", "class EncodeJson", "encodeJson", "jsonNull"],
+      ImportLine "Data.Argonaut.Decode.Generic" $ Set.fromList ["genericDecodeJson"],
+      ImportLine "Data.Argonaut.Encode.Generic" $ Set.fromList ["genericEncodeJson"],
+      ImportLine "Data.Newtype" $ Set.singleton "class Newtype"
     ]
 instanceToImportLines Enum =
   importsFromList

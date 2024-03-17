@@ -186,9 +186,7 @@ instancesToImportLines =
 instanceToQualifiedImports :: PSInstance -> Map Text Text
 instanceToQualifiedImports Json =
   Map.fromList
-    [ ("Data.Argonaut.Decode.Aeson", "D"),
-      ("Data.Argonaut.Encode.Aeson", "E"),
-      ("Data.Map", "Map")
+    [ ("Data.Map", "Map")
     ]
 instanceToQualifiedImports _ = Map.empty
 
@@ -359,11 +357,11 @@ instances st@(SumType t _ is) = go <$> is
           [ mkInstance
               (mkType "EncodeJson" [t])
               encodeJsonConstraints
-              ["encodeJson = defer \\_ ->" <+> sumTypeToEncode st],
+              ["encodeJson = genericEncodeJson"],
             mkInstance
               (mkType "DecodeJson" [t])
               decodeJsonConstraints
-              [hang 2 $ "decodeJson = defer \\_ -> D.decode" <+> sumTypeToDecode st]
+              [hang 2 $ "decodeJson = genericDecodeJson"]
           ]
     go GenericShow = mkInstance (mkType "Show" [t]) showConstraints ["show a = genericShow a"]
     go Functor = mkDerivedInstance (mkType "Functor" [toKind1 t]) (const [])
